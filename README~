@@ -1,0 +1,68 @@
+                               
+ _____             _           
+| __  |___ ___ _ _|_|___ _____ 
+|    -| -_| . | | | | -_|     |
+|__|__|___|_  |___|_|___|_|_|_|
+            |_|                
+
+- Symfony 2.0 enahancement -
+
+Requiem is a php Symfony 2 enhancement
+
+It's a bundle so to install it simple download and install it under /Bundle/Requiem
+folder of your Symfony 2.0 project.
+
+For the moment the budle give you 3 features
+
+[1] RequiemController
+
+Using RequiemController instead of a normal controller you can declare service as member 
+and directly use them so for example you can do a controller like this
+
+use Bundle\Requiem\Services\RequiemController;
+
+class TestController extends RequiemController {
+
+  //automatic filled with the doctrine em
+  public $entityService;
+
+  //automatic filled with the request object
+  public $requestService;
+
+  public function indexAction() {    
+    $query = $this->entityService->createQuery('SELECT u FROM TestBundle:User u WHERE u.email = "'.$this->requestService->get('email').'"');    
+    ,,,
+  }
+}
+
+[2] RestRequiemController
+
+A special controller useful for rest. Colling it's handle method from the routing it directly call the right action based on the http method
+
+rest:
+    pattern: /rest
+    defaults: { _controller: TestBundle:Test:handle }
+
+use Bundle\Requiem\Services\RestRequiemController;
+
+class TestController extends RestRequiemController {
+
+  public $entityService;
+  public $requestService;
+
+  public function doGet() {    
+    ,,,
+  }
+
+  public function doPost() {    
+    ,,,
+  }
+}
+
+[3] RequiemService
+
+Extend this class to have a class with access to the container and the autobind like a RequiemController
+
+Chears
+
+Taioli Fabiano
